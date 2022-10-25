@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Login extends AppCompatActivity {
 
@@ -32,21 +34,23 @@ public class Login extends AppCompatActivity {
             usernameString = inputUsername.getText().toString();
             passwordString = inputPassword.getText().toString();
 
-            Intent intent = new Intent(view.getContext(), ListMenu.class);
-            startActivity(intent);
-            finish();
+
 
             //finish();
 
-            /*
+            Log.d("username", usernameString);
+            Log.d("password", passwordString);
+            Log.d("boolUser", String.valueOf(usernameString.equalsIgnoreCase("Admin")));
+            Log.d("boolPassword", String.valueOf(passwordString.equalsIgnoreCase("Password")));
+
             if(!usernameString.equalsIgnoreCase("Admin") && !passwordString.equalsIgnoreCase("Password")){
                 Toast.makeText(getApplicationContext(), "Wrong Username and Password", Toast.LENGTH_SHORT).show();
+
             }else{
-
-                //finish();
+                Intent intent = new Intent(view.getContext(), ListMenu.class);
+                startActivity(intent);
+                finish();
             }
-
-             */
         });
 
         register.setOnClickListener(view -> {

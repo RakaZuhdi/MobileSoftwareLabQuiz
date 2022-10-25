@@ -11,7 +11,7 @@
         android:layout_width="100dp"
         android:layout_weight="1"
         android:layout_height="100dp"
-        android:id="@+id/image.view" />
+        android:id="@+id/image_view" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

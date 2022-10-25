@@ -22,6 +22,9 @@ public class MainActivity3 extends AppCompatActivity {
     TextView firstname;
     TextView lastname;
     ImageView avatar;
+    String currentUser;
+    String currentAvatar;
+    String currentUserLastName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +33,16 @@ public class MainActivity3 extends AppCompatActivity {
 
         firstname = findViewById(R.id.first_name_text_view);
         lastname = findViewById(R.id.last_name_text_view);
+        avatar = findViewById(R.id.image_view);
 
         String url = "https://reqres.in/api/users";
+
+
+        Bundle extras = getIntent().getExtras();
+        this.currentUser = extras.getString("CurrentUser");
+        this.currentAvatar = extras.getString("CurrentAvatar");
+        this.currentUserLastName = extras.getString("CurrentUserLastName");
+
 
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(getStringRequest(url));
@@ -44,12 +55,12 @@ public class MainActivity3 extends AppCompatActivity {
                 JSONArray array = object.getJSONArray("data");
                 JSONObject user = array.getJSONObject(0);
 
-                firstname.setText(user.getString("first_name"));
-                lastname.setText(user.getString("last_name"));
+                firstname.setText(currentUser);
+                lastname.setText(currentUserLastName);
 
 
                 Glide.with(this)
-                        .load(user.getString("avatar"))
+                        .load(currentAvatar)
                         .circleCrop()
                         .into(avatar);
 

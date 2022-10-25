@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.example.mobilesoftwareengineeringlab.Models.DataModel;
 
 import org.json.JSONArray;
@@ -28,6 +31,8 @@ import java.util.ArrayList;
 public class ListMenu extends AppCompatActivity{
 
     ArrayList<DataModel> dataModels;
+    private String currentUsername;
+    private String currentAvatar;
 
 
     @Override
@@ -41,7 +46,7 @@ public class ListMenu extends AppCompatActivity{
 
         dataModels = new ArrayList<DataModel>();
 
-        prepareListView();
+
     }
 
     private StringRequest getStringRequest(String url){
@@ -55,8 +60,10 @@ public class ListMenu extends AppCompatActivity{
                 for (int i = 0; i < 5; i++) {
                     JSONObject user = array.getJSONObject(i);
                     dataModels.add(new DataModel(user.getString("first_name"), user.getString("last_name"), user.getString("avatar")));
-
+                    Log.d("Avatar string", user.getString("avatar"));
                 }
+
+                prepareListView();
 
             } catch (JSONException e){
                 e.printStackTrace();
@@ -101,7 +108,20 @@ class DataModelAdapter extends RecyclerView.Adapter<DataModelViewHolder> {
 
         holder.titleText.setText(model.getTitle());
         holder.descriptionText.setText(model.getDescription());
+        Glide.with(holder.parent.getContext())
+                .load(model.getImageURL()) // image url
+                .override(200, 200) // resizing
+                .centerCrop()
+                .into(holder.avatarDisplay);
 
+        holder.parent.setOnClickListener(view -> {
+            final Intent intent;
+            intent = new Intent(holder.parent.getContext(), MainActivity3.class);
+            intent.putExtra("CurrentUser", model.getTitle());
+            intent.putExtra("CurrentAvatar", model.getImageURL());
+            intent.putExtra("CurrentUserLastName", model.getDescription());
+            holder.parent.getContext().startActivity(intent);
+        });
 
     }
 
@@ -122,6 +142,6 @@ class DataModelViewHolder extends RecyclerView.ViewHolder {
         parent = itemView;
         titleText = itemView.findViewById(R.id.title_text);
         descriptionText = itemView.findViewById(R.id.description_text);
-        avatarDisplay = itemView.findViewById(R.id.image_view);
+        avatarDisplay = itemView.findViewById(R.id.avatar_image);
     }
 }

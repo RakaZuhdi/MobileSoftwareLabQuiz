@@ -8,6 +8,7 @@ public class DataModel{
     public DataModel(String title, String description, String imageURL){
         this.title = title;
         this.description = description;
+        this.imageURL = imageURL;
     }
 
     public String getTitle(){
@@ -15,7 +16,7 @@ public class DataModel{
     }
 
     public String getImageURL(){
-        return  title;
+        return imageURL;
     }
 
     public void setTitle(String title){
